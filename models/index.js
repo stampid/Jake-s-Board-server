@@ -1,7 +1,6 @@
 "use strict";
 
-import envLib from "../src/lib/env";
-
+require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
@@ -12,7 +11,7 @@ const db = {};
 
 let sequelize;
 
-const { USERNAME, DATABASE, PASSWORD } = envLib;
+const { USERNAME, DATABASE, PASSWORD } = process.env;
 
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);

@@ -4,6 +4,8 @@ import logger from "morgan";
 import { config } from "dotenv";
 import cookieParser from "cookie-parser";
 import { sequelize } from "../models/index";
+import userRouter from "./Routers/userRouter";
+import routes from "./routes";
 
 config();
 
@@ -13,9 +15,12 @@ const { PORT } = process.env;
 
 server.use(cors());
 server.use(logger("dev"));
+server.use(express.json());
+
+server.use(routes.user, userRouter);
 
 server.listen(PORT, () => {
   console.log("hi");
 });
 
-// sequelize.sync();
+sequelize.sync();
