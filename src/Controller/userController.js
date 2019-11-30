@@ -1,8 +1,10 @@
+import bcryptjs from "bcryptjs";
 import { User } from "../../models/index";
 import { sendMail, generateNumber } from "../lib/sendMail";
 
 const emailStorage = {};
 
+// 이메일 중복 확인 및 인증번호 보내기
 export const emailSend = async (req, res) => {
   const { email } = req.body;
 
@@ -29,6 +31,7 @@ export const emailSend = async (req, res) => {
   }
 };
 
+// 인증번호 확인
 export const emailAuth = (req, res) => {
   const { email, number } = req.body;
 
@@ -41,4 +44,29 @@ export const emailAuth = (req, res) => {
     res.status(400);
     res.send(false);
   }
+};
+
+// 회원가입
+export const signUp = (req, res) => {
+  const {
+    email,
+    nickName,
+    provider = "local",
+    // Todo : 기본 imgUrl 교체하기
+    profileImg = "imgUrl"
+  } = req.body;
+  let { password } = req.body;
+
+  const salt = bcryptjs.genSaltSync(10);
+  password = bcryptjs.hashSync(password, salt);
+
+  User.create({ email, nickName, password, provider, profileImg })
+    .then(_ => {
+      res.status(200);
+      res.send(true);
+    })
+    .catch(err => {
+      res.status(500);
+      res.send(err);
+    });
 };
