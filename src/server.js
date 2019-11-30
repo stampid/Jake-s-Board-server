@@ -11,11 +11,12 @@ config();
 
 const server = express();
 
-const { PORT } = process.env;
+const { PORT, cookieSecret } = process.env;
 
 server.use(cors());
 server.use(logger("dev"));
 server.use(express.json());
+server.use(cookieParser(cookieSecret));
 
 server.use(routes.user, userRouter);
 
@@ -23,4 +24,4 @@ server.listen(PORT, () => {
   console.log("hi");
 });
 
-sequelize.sync();
+// sequelize.sync();
