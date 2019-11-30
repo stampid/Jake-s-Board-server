@@ -16,7 +16,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      passWord: {
+      password: {
         type: Sequelize.STRING
       },
       provider: {
